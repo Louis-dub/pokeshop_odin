@@ -5,8 +5,11 @@ export default function Header() {
     return (
         <>
             <nav className="flex justify-between bg-gray-900 items-center p-4">
-                <div className="flex justify-center items-center gap-4 cursor-pointer hover:scale-110 active:scale-95 transition-all ease-out">
-                    <Link to="/">
+                <div>
+                    <Link
+                        to="/"
+                        className="flex justify-center items-center gap-4 cursor-pointer hover:scale-110 active:scale-95 transition-all ease-out"
+                    >
                         <img
                             src={Logo}
                             alt="Logo"
