@@ -4,10 +4,7 @@ export async function getPokemonById(id) {
 
         if (!pokemon.ok)
             throw new Error("Error HTTP: ", pokemon.status);
-
-        const pokemonData = await pokemon.json();
-        console.log(JSON.stringify(pokemonData));
-        return pokemonData.sprites.front_default;
+        return pokemon.json();
     } catch (error) {
         console.error("Error: ", error);
         return "";
