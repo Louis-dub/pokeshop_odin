@@ -1,8 +1,9 @@
-import useGetPokemonBtId from "./hook/useGetPokemonById";
+import Header from "./components/header";
 
 function App() {    
     return (
         <>
+            <Header />
         </>
     )
 }
