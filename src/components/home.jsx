@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
+import { FaSkull } from 'react-icons/fa6';
 
 export default function Home() {
     return (
@@ -16,6 +18,12 @@ export default function Home() {
                 <br />
                 If you mention the website to anyone, we’ll track you down !!!
             </p>
+            <button className="font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
+                <Link to="/shop" className="flex gap-2 items-center">
+                    Shop Now
+                    <FaSkull />
+                </Link>
+            </button>
         </div>
     );
 }
