@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPokemonById } from "../api/getPokemonById";
 
-export default function useGetPokemonBtId(id) {
+export default function useGetPokemonsBtIds(ids) {
     return useQuery({
-        queryKey: ["pokemon", id],
-        queryFn: () => getPokemonById(id),
+        queryKey: ["pokemons", ids],
+        queryFn: async () => {
+            return await Promise.all(ids.map(id => getPokemonById(id)));
+        },
     });
 }
