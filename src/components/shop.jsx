@@ -12,16 +12,20 @@ export default function Shop() {
         <>
             {isLoading
              ? <p>Loading ...</p>
-             : pokemons.map(pokemon => (
-                 <div>
-                     <h1>{upperFirstLetter(pokemon.name)}</h1>
-                     <img
-                         src={pokemon.sprites.front_default}
-                         alt={pokemon.name}
-                     />
-                     <p>Type : {upperFirstLetter(pokemon.types[0].type.name)}</p>
+             : (
+                 <div className="m-auto mt-16 mb-16 flex flex-wrap gap-8 justify-center w-[1250px]">
+                     {pokemons.map(pokemon => (
+                         <div className="border-2 border-black rounded-[10px] p-4 flex flex-col items-center gap-2 w-[150px] hover:scale-110 active:scale-95 transition-all ease-out cursor-pointer bg-[#FFCCCC] text-black">
+                             <h1 className="text-xl font-bold">{upperFirstLetter(pokemon.name)}</h1>
+                             <img
+                                 src={pokemon.sprites.front_default}
+                                 alt={pokemon.name}
+                             />
+                             <p>Type : <span className="font-bold">{upperFirstLetter(pokemon.types[0].type.name)}</span></p>
+                         </div>
+                     ))}
                  </div>
-             ))}
+             )}
         </>
     );
 }
