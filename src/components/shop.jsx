@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import useGetPokemonsBtIds from "../hook/useGetPokemonById";
+import { FaMoneyBill1Wave } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 function upperFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -27,13 +29,13 @@ export default function Shop() {
             name: pokemon.name,
             img: pokemon.sprites.front_default,
             type: pokemon.types[0].type.name,
-            price: pokemon.base_experience / 2 * 10000,
+            price: pokemon.base_experience / 2 * 100000,
         });
         localStorage.setItem("cart", JSON.stringify(cart));
     }
 
     return (
-        <div className="flex">
+        <div className="flex flex-col items-center">
             <div className="absolute top-36 left-12 flex flex-col gap-2">
                 {filters.map((flt, index) => {
                     const bgClass = flt === pokeFilter ? "bg-black" : "bg-[#B30000]";
@@ -58,7 +60,7 @@ export default function Shop() {
             {isLoading
              ? <p>Loading ...</p>
              : (
-                 <div className="m-auto mt-16 mb-16 flex flex-wrap gap-8 justify-center w-[1250px]">
+                 <div className="mt-16 mb-16 flex flex-wrap gap-8 justify-center w-[1250px]">
                      {pokemonsFilter.map(pokemon => (
                          <div
                              key={pokemon.id}
@@ -76,6 +78,12 @@ export default function Shop() {
                      ))}
                  </div>
              )}
+            <button className="mb-16 font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
+                <Link to="/cart" className="flex gap-2 items-center">
+                    Pay Now
+                    <FaMoneyBill1Wave />
+                </Link>
+            </button>
         </div>
     );
 }
