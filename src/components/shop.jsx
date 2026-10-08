@@ -10,6 +10,7 @@ export default function Shop() {
     const {data: pokemons, isLoading} = useGetPokemonsBtIds(ids);
     const filters = ["grass", "fire", "water", "bug", "normal", "poison", "electric", "fairy", "ground", "fighting", "psychic", "rock", "ghost", "dragon"];
     const [pokeFilter, setFilter] = useState("");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const pokemonsFilter = useMemo(() => {
         if (isLoading)
             return [];
@@ -20,16 +21,28 @@ export default function Shop() {
                 return pokemons.filter(poke => poke.types[0].type.name === pokeFilter);
     }, [pokemons, pokeFilter]);
 
+    function handleCart(pokemon) {
+        cart.push({
+            id: pokemon.id,
+            name: pokemon.name,
+            img: pokemon.sprites.front_default,
+            type: pokemon.types[0].type.name,
+            price: pokemon.base_experience / 2 * 10000,
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
     return (
         <div className="flex">
             <div className="absolute top-36 left-12 flex flex-col gap-2">
-                {filters.map(flt => {
+                {filters.map((flt, index) => {
                     const bgClass = flt === pokeFilter ? "bg-black" : "bg-[#B30000]";
                     const textClass = flt === pokeFilter ? "text-[#B30000]" : "text-black";
                     const className = `font-bold p-4 ${bgClass} ${textClass} rounded-[10px] hover:scale-110 active:scale-95 transition-all ease-out`;
 
                     return (
                         <button
+                            key={index}
                             className={className}
                             onClick={() => {
                                 if (flt === pokeFilter)
@@ -47,7 +60,11 @@ export default function Shop() {
              : (
                  <div className="m-auto mt-16 mb-16 flex flex-wrap gap-8 justify-center w-[1250px]">
                      {pokemonsFilter.map(pokemon => (
-                         <div className="border-2 border-black rounded-[10px] p-4 flex flex-col items-center gap-2 w-[150px] hover:scale-110 active:scale-95 transition-all ease-out cursor-pointer bg-[#FFCCCC] text-black">
+                         <div
+                             key={pokemon.id}
+                             className="border-2 border-black rounded-[10px] p-4 flex flex-col items-center gap-2 w-[150px] hover:scale-110 active:scale-95 transition-all ease-out cursor-pointer bg-[#FFCCCC] text-black"
+                             onClick={() => {handleCart(pokemon)}}
+                         >
                              <h1 className="text-xl font-bold">{upperFirstLetter(pokemon.name)}</h1>
                              <img
                                  src={pokemon.sprites.front_default}
