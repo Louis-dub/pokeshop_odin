@@ -22,6 +22,7 @@ export default function Shop() {
                                  alt={pokemon.name}
                              />
                              <p>Type : <span className="font-bold">{upperFirstLetter(pokemon.types[0].type.name)}</span></p>
+                             <p>{(pokemon.base_experience / 2 * 100000).toLocaleString('fr-FR')} ¥</p>
                          </div>
                      ))}
                  </div>
