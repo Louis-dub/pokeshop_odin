@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useGetPokemonsBtIds from "../hook/useGetPokemonById";
 
 function upperFirstLetter(string) {
@@ -9,21 +9,30 @@ export default function Shop() {
     const ids = Array.from({length: 151}, (_, i) => i + 1);
     const {data: pokemons, isLoading} = useGetPokemonsBtIds(ids);
     const filters = ["grass", "fire", "water", "bug", "normal", "poison", "electric", "fairy", "ground", "fighting", "psychic", "rock", "ghost", "dragon"];
-    const [filter, setFilter] = useState("");
+    const [pokeFilter, setFilter] = useState("");
+    const pokemonsFilter = useMemo(() => {
+        if (isLoading)
+            return [];
+        else
+            if (pokeFilter === "")
+                return [...pokemons];
+            else
+                return pokemons.filter(poke => poke.types[0].type.name === pokeFilter);
+    }, [pokemons, pokeFilter]);
 
     return (
         <div className="flex">
             <div className="absolute top-36 left-12 flex flex-col gap-2">
                 {filters.map(flt => {
-                    const bgClass = flt === filter ? "bg-black" : "bg-[#B30000]";
-                    const textClass = flt === filter ? "text-[#B30000]" : "text-black";
+                    const bgClass = flt === pokeFilter ? "bg-black" : "bg-[#B30000]";
+                    const textClass = flt === pokeFilter ? "text-[#B30000]" : "text-black";
                     const className = `font-bold p-4 ${bgClass} ${textClass} rounded-[10px] hover:scale-110 active:scale-95 transition-all ease-out`;
 
                     return (
                         <button
                             className={className}
                             onClick={() => {
-                                if (flt === filter)
+                                if (flt === pokeFilter)
                                     setFilter("");
                                 else
                                     setFilter(flt);
@@ -37,7 +46,7 @@ export default function Shop() {
              ? <p>Loading ...</p>
              : (
                  <div className="m-auto mt-16 mb-16 flex flex-wrap gap-8 justify-center w-[1250px]">
-                     {pokemons.map(pokemon => (
+                     {pokemonsFilter.map(pokemon => (
                          <div className="border-2 border-black rounded-[10px] p-4 flex flex-col items-center gap-2 w-[150px] hover:scale-110 active:scale-95 transition-all ease-out cursor-pointer bg-[#FFCCCC] text-black">
                              <h1 className="text-xl font-bold">{upperFirstLetter(pokemon.name)}</h1>
                              <img
