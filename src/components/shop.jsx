@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useGetPokemonsBtIds from "../hook/useGetPokemonById";
 
 function upperFirstLetter(string) {
@@ -7,9 +8,31 @@ function upperFirstLetter(string) {
 export default function Shop() {
     const ids = Array.from({length: 151}, (_, i) => i + 1);
     const {data: pokemons, isLoading} = useGetPokemonsBtIds(ids);
+    const filters = ["grass", "fire", "water", "bug", "normal", "poison", "electric", "fairy", "ground", "fighting", "psychic", "rock", "ghost", "dragon"];
+    const [filter, setFilter] = useState("");
 
     return (
-        <>
+        <div className="flex">
+            <div className="absolute top-36 left-12 flex flex-col gap-2">
+                {filters.map(flt => {
+                    const bgClass = flt === filter ? "bg-black" : "bg-[#B30000]";
+                    const textClass = flt === filter ? "text-[#B30000]" : "text-black";
+                    const className = `font-bold p-4 ${bgClass} ${textClass} rounded-[10px] hover:scale-110 active:scale-95 transition-all ease-out`;
+
+                    return (
+                        <button
+                            className={className}
+                            onClick={() => {
+                                if (flt === filter)
+                                    setFilter("");
+                                else
+                                    setFilter(flt);
+                            }}
+                        >
+                            {upperFirstLetter(flt)}
+                        </button>
+                )})}
+            </div>
             {isLoading
              ? <p>Loading ...</p>
              : (
@@ -22,11 +45,11 @@ export default function Shop() {
                                  alt={pokemon.name}
                              />
                              <p>Type : <span className="font-bold">{upperFirstLetter(pokemon.types[0].type.name)}</span></p>
-                             <p>{(pokemon.base_experience / 2 * 100000).toLocaleString('fr-FR')} ¥</p>
+                             <p>{(pokemon.base_experience / 2 * 100000).toLocaleString('fr-FR')} ₽</p>
                          </div>
                      ))}
                  </div>
              )}
-        </>
+        </div>
     );
 }
