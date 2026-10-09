@@ -30,6 +30,7 @@ export default function Cart() {
 
         setPokemons(newPokemons);
         localStorage.setItem("cart", JSON.stringify(newPokemons));
+        window.dispatchEvent(new Event("cartUpdated"));
     }
     
     return (
