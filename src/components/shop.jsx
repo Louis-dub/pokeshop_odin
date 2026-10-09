@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import useGetPokemonsBtIds from "../hook/useGetPokemonById";
-import { FaMoneyBill1Wave } from "react-icons/fa6";
+import { FaMoneyBillWave } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function upperFirstLetter(string) {
@@ -24,14 +24,23 @@ export default function Shop() {
     }, [pokemons, pokeFilter]);
 
     function handleCart(pokemon) {
-        cart.push({
-            id: pokemon.id,
-            name: pokemon.name,
-            img: pokemon.sprites.front_default,
-            type: pokemon.types[0].type.name,
-            price: pokemon.base_experience / 2 * 100000,
-        });
+        const el = cart.find(p => pokemon.id === p.id);
+
+        if (el) {
+            const id = cart.indexOf(el);
+            cart[id].nb++;
+        } else {
+            cart.push({
+                id: pokemon.id,
+                name: pokemon.name,
+                img: pokemon.sprites.front_default,
+                type: pokemon.types[0].type.name,
+                price: pokemon.base_experience / 2 * 100000,
+                nb: 1,
+            });
+        }
         localStorage.setItem("cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("cartUpdated"));
     }
 
     return (
@@ -81,7 +90,7 @@ export default function Shop() {
             <button className="mb-16 font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
                 <Link to="/cart" className="flex gap-2 items-center">
                     Pay Now
-                    <FaMoneyBill1Wave />
+                    <FaMoneyBillWave />
                 </Link>
             </button>
         </div>
