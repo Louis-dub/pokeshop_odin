@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import useGetPokemonsBtIds from "../hook/useGetPokemonById";
-import { FaMoneyBill1Wave } from "react-icons/fa6";
+import { FaMoneyBillWave } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function upperFirstLetter(string) {
@@ -89,7 +89,7 @@ export default function Shop() {
             <button className="mb-16 font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
                 <Link to="/cart" className="flex gap-2 items-center">
                     Pay Now
-                    <FaMoneyBill1Wave />
+                    <FaMoneyBillWave />
                 </Link>
             </button>
         </div>
