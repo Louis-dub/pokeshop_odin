@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaCircleMinus, FaCirclePlus, FaSkull } from "react-icons/fa6";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 
 function upperFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -9,6 +10,7 @@ function upperFirstLetter(string) {
 
 export default function Cart() {
     const [pokemons, setPokemons] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+    const dialogRef = useRef(null);
 
     function handleCart(id, t) {
         const pokemon = pokemons.find(poke => poke.id === id);
@@ -87,13 +89,30 @@ export default function Cart() {
                                  <FaSkull />
                              </Link>
                          </button>
-                         <button className="flex gap-2 items-center font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
+                         <button
+                             className="flex gap-2 items-center font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out"
+                             onClick={() => dialogRef.current.showModal()}
+                         >
                              Pay
                              <FaMoneyBillWave />
                          </button>
                      </div>
                  </>
              )}
+
+            <dialog ref={dialogRef} className="rounded-[20px]">
+                <div className="border-2 border-black rounded-[20px] w-96 h-80 bg-[#FFCCCC] flex flex-col items-center gap-4 p-10">
+                    <h1 className="font-bold text-4xl text-center">ARE YOU SERIOUS ???!!!</h1>
+                    <p className="font-bold text-xl text-center">If you want to cheat, play Palword !</p>
+                    <button
+                        onClick={() => dialogRef.current.close()}
+                        className="flex gap-2 items-center border border-black p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out"
+                    >
+                        Close
+                        <RxCross2 />
+                    </button>
+                </div>
+            </dialog>
          </>
     );
 }
