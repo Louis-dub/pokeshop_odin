@@ -24,13 +24,21 @@ export default function Shop() {
     }, [pokemons, pokeFilter]);
 
     function handleCart(pokemon) {
-        cart.push({
-            id: pokemon.id,
-            name: pokemon.name,
-            img: pokemon.sprites.front_default,
-            type: pokemon.types[0].type.name,
-            price: pokemon.base_experience / 2 * 100000,
-        });
+        const el = cart.find(p => pokemon.id === p.id);
+
+        if (el) {
+            const id = cart.indexOf(el);
+            cart[id].nb++;
+        } else {
+            cart.push({
+                id: pokemon.id,
+                name: pokemon.name,
+                img: pokemon.sprites.front_default,
+                type: pokemon.types[0].type.name,
+                price: pokemon.base_experience / 2 * 100000,
+                nb: 1,
+            });
+        }
         localStorage.setItem("cart", JSON.stringify(cart));
     }
 
