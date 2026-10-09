@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaSkull } from "react-icons/fa6";
+import { FaCircleMinus, FaCirclePlus, FaSkull } from "react-icons/fa6";
 
 function upperFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -24,20 +24,33 @@ export default function Cart() {
                  </div>
              )
              : (
-                 <div>
+                 <div className="m-auto flex flex-wrap justify-center gap-4 items-center mt-16 w-[60%]">
                      {pokemons.map(pokemon => (
                          <div
                              key={pokemon.id}
-                             className="flex gap-2 border-2 border-black rounded-[15px]"
+                             className="flex items-center justify-center gap-2 border-2 border-black rounded-[15px] p-4"
                          >
                              <img
                                  src={pokemon.img}
                                  alt={pokemon.name}
                              />
-                             <div className="flex flex-col items-center">
+                             <div className="flex flex-col items-center w-64">
                                  <h1 className="text-xl font-bold">{upperFirstLetter(pokemon.name)}</h1>
                                  <p>Type : <span className="font-bold">{upperFirstLetter(pokemon.type)}</span></p>
                                  <p>{(pokemon.price * pokemon.nb).toLocaleString('fr-FR')} ₽</p>
+                             </div>
+                             <div className="flex gap-2 items-center">
+                                 <button
+                                     className="hover:scale-110 active:scale-95 transition-all ease-out"
+                                 >
+                                     <FaCircleMinus size={24} />
+                                 </button>
+                                 <span className="text-xl font-bold">{pokemon.nb}</span>
+                                 <button
+                                     className="hover:scale-110 active:scale-95 transition-all ease-out"
+                                 >
+                                     <FaCirclePlus size={24} />
+                                 </button>
                              </div>
                          </div>
                      ))}
