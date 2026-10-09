@@ -13,8 +13,8 @@ export default function Cart() {
         <>
             {pokemons.length === 0
              ? (
-                 <div>
-                     <p>Your cart is empty</p>
+                 <div className="flex flex-col items-center justify-center gap-2 mt-[200px]">
+                     <p className="font-bold text-2xl">Your cart is empty</p>
                      <button className="font-bold bg-[#B8B8B6] text-[#5E1200] p-2 rounded-[15px] hover:scale-110 active:scale-95 transition-all ease-out">
                          <Link to="/shop" className="flex gap-2 items-center">
                              Shop Now
