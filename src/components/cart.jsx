@@ -8,6 +8,26 @@ function upperFirstLetter(string) {
 
 export default function Cart() {
     const [pokemons, setPokemons] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+
+    function handleCart(id, t) {
+        const pokemon = pokemons.find(poke => poke.id === id);
+        const index = pokemons.indexOf(pokemon);
+        const newPokemons = [...pokemons];
+
+        if (t) {
+            pokemon.nb++;
+            newPokemons.splice(index, 1, pokemon);
+        } else {
+            pokemon.nb--;
+            if (pokemon.nb === 0)
+                newPokemons.splice(index, 1);
+            else
+                newPokemons.splice(index, 1, pokemon);
+        }
+
+        setPokemons(newPokemons);
+        localStorage.setItem("cart", JSON.stringify(newPokemons));
+    }
     
     return (
         <>
@@ -42,12 +62,14 @@ export default function Cart() {
                              <div className="flex gap-2 items-center">
                                  <button
                                      className="hover:scale-110 active:scale-95 transition-all ease-out"
+                                     onClick={() => handleCart(pokemon.id, false)}
                                  >
                                      <FaCircleMinus size={24} />
                                  </button>
                                  <span className="text-xl font-bold">{pokemon.nb}</span>
                                  <button
                                      className="hover:scale-110 active:scale-95 transition-all ease-out"
+                                     onClick={() => handleCart(pokemon.id, true)}
                                  >
                                      <FaCirclePlus size={24} />
                                  </button>
